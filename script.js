@@ -1,8 +1,34 @@
 let BASE_STREAM_QUERY_URL = 'https://wind-bow.glitch.me/twitch-api/streams/';
 let BASE_USER_QUERY_URL = 'https://wind-bow.glitch.me/twitch-api/users/';
-const STREAM_LIST = ["ESL_SC2", "OgamingSC2", "cretetion", 
+const STREAM_LIST = ["esl_sc2", "OgamingSC2", "cretetion", 
                   "freecodecamp", "storbeck", "reynad27", 
-                  "RobotCaleb", "noobs2ninjas"]
+                  "RobotCaleb", "noobs2ninjas"];
+let streamData = [
+  {
+    name: "esl_sc2",
+  },
+  {
+    name: "ogamingsc2",
+  },
+  {
+    name: "cretetion",
+  },
+  {
+    name: "freecodecamp",
+  },
+  {
+    name: "storbeck",
+  },
+  {
+    name: "reynad27",
+  },
+  {
+    name: "robotcaleb",
+  },
+  {
+    name: "noobs2ninjas",
+  }
+];
 
 let streamInfo = []; // name, logo, link, status, game
 
@@ -19,24 +45,26 @@ function getUserData() {
       method: 'GET',
       success: data => {
         currentStreamInfo = [data.display_name, data.logo];
-      },
-      complete:
-        $.ajax({
-          url: BASE_STREAM_QUERY_URL + stream,
-          method: 'GET',
-          success: data => {
-            console.log(currentStreamInfo);
-            if (data.stream)
-              currentStreamInfo = [currentStreamInfo[0], currentStreamInfo[1], data.stream.channel.url, 'Live', data.stream.game, data.stream.channel.status];
-            else 
-              currentStreamInfo = [currentStreamInfo[0], currentStreamInfo[1], '', 'Offline', '', ''];
-            streamInfo.push(currentStreamInfo);
-          } 
-       })
+        streamInfo.push(currentStreamInfo);
+      }
     });
     
   });
 }
+
+/*
+$.ajax({
+  url: BASE_STREAM_QUERY_URL + stream,
+  method: 'GET',
+  success: data => {
+    console.log(data);
+    if (data.stream)
+      currentStreamInfo = [currentStreamInfo[0], currentStreamInfo[1], data.stream.channel.url, 'Live', data.stream.game, data.stream.channel.status];
+    else 
+      currentStreamInfo = [currentStreamInfo[0], currentStreamInfo[1], '', 'Offline', '', ''];
+    streamInfo.push(currentStreamInfo);
+} 
+*/
 
 $(document).ajaxStop(() => {
   let htmlToAppend = '';
