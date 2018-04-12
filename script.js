@@ -1,36 +1,17 @@
 let BASE_STREAM_QUERY_URL = 'https://wind-bow.glitch.me/twitch-api/streams/';
 let BASE_USER_QUERY_URL = 'https://wind-bow.glitch.me/twitch-api/users/';
-const STREAM_LIST = ["esl_sc2", "OgamingSC2", "cretetion", 
-                  "freecodecamp", "storbeck", "reynad27", 
-                  "RobotCaleb", "noobs2ninjas"];
+
 let streamData = [
-  {
-    name: "esl_sc2",
-  },
-  {
-    name: "ogamingsc2",
-  },
-  {
-    name: "cretetion",
-  },
-  {
-    name: "freecodecamp",
-  },
-  {
-    name: "storbeck",
-  },
-  {
-    name: "reynad27",
-  },
-  {
-    name: "robotcaleb",
-  },
-  {
-    name: "noobs2ninjas",
-  }
+  { name: "esl_sc2", },
+  { name: "ogamingsc2", },
+  { name: "cretetion", },
+  { name: "freecodecamp", },
+  { name: "storbeck", },
+  { name: "reynad27", },
+  { name: "robotcaleb", },
+  { name: "noobs2ninjas", }
 ];
 
-let streamInfo = []; // name, logo, link, status, game
 
 $(document).ready(() => {
   getUserData();
@@ -38,54 +19,61 @@ $(document).ready(() => {
 
 function getUserData() {
   
-  STREAM_LIST.forEach((stream) => {
+  streamData.forEach((stream) => {
     let currentStreamInfo = [];
     $.ajax({
-      url: BASE_USER_QUERY_URL + stream,
+      url: BASE_USER_QUERY_URL + stream.name,
       method: 'GET',
       success: data => {
         currentStreamInfo = [data.display_name, data.logo];
-        streamInfo.push(currentStreamInfo);
+        stream.display_name = data.display_name;
+        stream.logo = data.logo;
+        console.log(stream);
+      },
+      complete: () => {
+        $.ajax({
+          url: BASE_STREAM_QUERY_URL + stream.name,
+          method: 'GET',
+          success: data => {
+            if (data.stream) {
+              stream.url = data.stream.channel.url;
+              stream.broadcastStatus = 'Live';
+              stream.game = data.stream.game;
+              stream.description = data.stream.channel.status;
+            } else {
+              stream.url = '';
+              stream.broadcastStatus = 'Offline';
+              stream.game = '';
+              stream.description = '';
+            }
+            console.log(stream);
+          } 
+        });
       }
     });
-    
   });
 }
 
-/*
-$.ajax({
-  url: BASE_STREAM_QUERY_URL + stream,
-  method: 'GET',
-  success: data => {
-    console.log(data);
-    if (data.stream)
-      currentStreamInfo = [currentStreamInfo[0], currentStreamInfo[1], data.stream.channel.url, 'Live', data.stream.game, data.stream.channel.status];
-    else 
-      currentStreamInfo = [currentStreamInfo[0], currentStreamInfo[1], '', 'Offline', '', ''];
-    streamInfo.push(currentStreamInfo);
-} 
-*/
-
 $(document).ajaxStop(() => {
   let htmlToAppend = '';
-  streamInfo.forEach((stream, index) => {
+  streamData.forEach((stream, index) => {
     let firstColumnAdditionalClass = '';
     if (index % 2 == 0) {
       htmlToAppend += '<div class="row justify-content-center mb-2">';
       firstColumnAdditionalClass = ' mr-2';
     }
-    htmlToAppend += generateStreamCardHTML(stream[0], stream[1], firstColumnAdditionalClass);
+    htmlToAppend += generateStreamCardHTML(stream.display_name, stream.logo, firstColumnAdditionalClass, stream.broadcastStatus);
     if (index % 2 == 1)
       htmlToAppend += '</div>';
   });
   $("#streamers-grid").append(htmlToAppend);   
 });
 
-function generateStreamCardHTML(streamName, logoURL, additionalClass) {
+function generateStreamCardHTML(streamName, logoURL, additionalClass, broadcastStatus) {
   return `
     <div class="col-md-4 bg-secondary p-1${additionalClass}">
       <img class='stream-logo pr-3' src="${logoURL}" alt="logo" align="left">
       <p class="h5 pt-2">${streamName}  <span class="badge badge-light h6">Status | Game</span></p>
-      <p class="h6">Opis streamu</p>
+      <p class="h6">${broadcastStatus}</p>
     </div>`;
 }
