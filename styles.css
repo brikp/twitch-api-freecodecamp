@@ -1,8 +1,34 @@
+.streamCard {
+  background-color: #6441A4;
+}
+
+
 .badge {
-    font-size: 0.6em
+    font-size: 0.6em;
+    vertical-align: text-top;
   }
   
   .stream-logo {
-    width:100%;
-    max-width:100px;
+    width: 100%;
+    max-width: 110px;
+    vertical-align: middle;
   }
+
+  .viewers-img {
+    width: 100%;
+    max-width: 10px;
+    color: red;
+    
+  }
+
+  #twitch-logo {
+    width: 100%;
+    max-width: 200px;
+  }
+
+  #waiting-div {
+    color: #6441A4;
+  }
+.offline {
+  background-color: gray;
+}

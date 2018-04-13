@@ -7,13 +7,23 @@
 
     <!-- Bootstrap CSS -->
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/animate.css@3.5.2/animate.min.css">
     <link rel="stylesheet" href="styles.css">
 
-    <title>Hello, world!</title>
+    <title>Twitch API project</title>
   </head>
   <body>
-
-    <div id="streamers-grid" class="container-fluid">
+    <div id="streamers-grid" class="container-fluid mt-3">
+      <div class="row justify-content-center">
+        <div class="col text-center my-3">
+          <img id="twitch-logo" src="Twitch_Purple_RGB.png">
+        </div>
+      </div>
+      <div id="waiting-div" class="row justify-content-center">
+        <div class="col text-center my-3 pt-3">
+          <p class="animated infinite pulse h2"><strong>Waiting for Twitch response</strong></p>
+        </div>
+      </div>
     </div>
 
     <!-- Optional JavaScript -->
@@ -22,6 +32,6 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
-    <script src="script.js"/></script>
+        <script src="script.js"/></script>
   </body>
 </html>
